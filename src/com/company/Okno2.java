@@ -50,6 +50,7 @@ public class Okno2 extends JFrame implements ActionListener {
         else if(source==bMinutes)
         {
             System.out.println("test8");
+            System.out.println("test8");
         }
 
     }
