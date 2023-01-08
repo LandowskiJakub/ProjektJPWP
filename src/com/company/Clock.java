@@ -11,7 +11,7 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import static java.awt.Font.SANS_SERIF;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+
 
 
 public class Clock extends JPanel implements MouseListener, MouseMotionListener {
@@ -62,7 +62,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         exitButton.setBounds(700, 590, 200, 40);
         exitButton.setFont(new Font(SANS_SERIF, Font.BOLD, 30));
         // Dodanie zachowania przycisku przy kliknięciu
-        exitButton.addActionListener(e -> System.exit(1));;
+        exitButton.addActionListener(e -> System.exit(1));
         // Dodanie przycisku do panelu
         panel.add(exitButton);
 
