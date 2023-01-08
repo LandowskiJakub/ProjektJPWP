@@ -305,39 +305,39 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
 
         g.setColor(Color.BLACK);
 
-        int rozmiar = 400 - space;
-        for (int sekundy = 0; sekundy < 60; sekundy++) {
+        int size = 400 - space;
+        for (int seconds = 0; seconds < 60; seconds++) {
             int dl;
-            if (sekundy % 5 == 0) {
-                dl = rozmiar / 2 - 10;
+            if (seconds % 5 == 0) {
+                dl = size / 2 - 10;
             } else {
-                dl = rozmiar / 2 - 5;
+                dl = size / 2 - 5;
             }
 
             float radNaSek = (float) (Math.PI / 30.0);
-            rysujKreski(g, center_X, center_Y, radNaSek * sekundy, dl - 20, rozmiar / 2 - 20);
+            drawLines(g, center_X, center_Y, radNaSek * seconds, dl - 20, size / 2 - 20);
         }
 
         if (clock < 3) {
-            for (int liczba = 12; liczba > 0; liczba--) {
+            for (int number = 12; number > 0; number--) {
                 float radNaNum = (float) (Math.PI / -6);
-                float sinus = (float) Math.sin(radNaNum * liczba);
-                float cosinus = (float) Math.cos(radNaNum * liczba);
-                int dx = (int) ((rozmiar / 2.0 - 45) * -sinus);
-                int dy = (int) ((rozmiar / 2.0 - 45) * -cosinus);
+                float sinus = (float) Math.sin(radNaNum * number);
+                float cosinus = (float) Math.cos(radNaNum * number);
+                int dx = (int) ((size / 2.0 - 45) * -sinus);
+                int dy = (int) ((size / 2.0 - 45) * -cosinus);
 
-                g.drawString("" + liczba, dx + center_X - 7, dy + center_Y + 7);
+                g.drawString("" + number, dx + center_X - 7, dy + center_Y + 7);
             }
         }
         if (clock == 1) {
-            for (int liczba = 24; liczba > 12; liczba--) {
+            for (int number = 24; number > 12; number--) {
                 float radNaNum = (float) (Math.PI / -6);
-                float sinus = (float) Math.sin(radNaNum * liczba);
-                float cosinus = (float) Math.cos(radNaNum * liczba);
-                int dx = (int) ((rozmiar / 2.0 - 45) * -sinus);
-                int dy = (int) ((rozmiar / 2.0 - 45) * -cosinus);
+                float sinus = (float) Math.sin(radNaNum * number);
+                float cosinus = (float) Math.cos(radNaNum * number);
+                int dx = (int) ((size / 2.0 - 45) * -sinus);
+                int dy = (int) ((size / 2.0 - 45) * -cosinus);
 
-                g.drawString("" + liczba, dx + center_X - 7, dy + center_Y + 22);
+                g.drawString("" + number, dx + center_X - 7, dy + center_Y + 22);
             }
         }
 
@@ -349,8 +349,8 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         g.fillOval(center_X - 3, center_Y - 3, 6, 6);
     }
 
-    private void rysujKreski(Graphics2D g, int x, int y, double kat,
-                             int minPromien, int maxPromien) {
+    private void drawLines(Graphics2D g, int x, int y, double kat,
+                           int minPromien, int maxPromien) {
         float sinus = (float) Math.sin(kat);
         float cosinus = (float) Math.cos(kat);
         int dxmin = (int) (minPromien * sinus);
@@ -361,17 +361,17 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         g.drawLine(x + dxmin, y + dymin, x + dxmax, y + dymax);
     }
 
-    private void drawHands(Graphics2D g, double godzina, double minuta) {
-        double minutowa = ((minuta * 6) * (Math.PI) / 180);
-        double godzinna = ((godzina + (minuta / 60)) * 30) * (Math.PI) / 180;
+    private void drawHands(Graphics2D g, double hour, double minute) {
+        double minutowa = ((minute * 6) * (Math.PI) / 180);
+        double godzinna = ((hour + (minute / 60)) * 30) * (Math.PI) / 180;
 
         g.setColor(Color.BLACK);
-        int xMinuta = center_X + (int) (120 * Math.cos(minutowa - (Math.PI / 2)));
-        int yMinuta = center_Y + (int) (120 * Math.sin(minutowa - (Math.PI / 2)));
-        g.drawLine(center_X, center_Y, xMinuta, yMinuta);
-        int xGodzina = center_X + (int) (90 * Math.cos(godzinna - (Math.PI / 2)));
-        int yGodzina = center_Y + (int) (90 * Math.sin(godzinna - (Math.PI / 2)));
-        g.drawLine(center_X, center_Y, xGodzina, yGodzina);
+        int xMinute = center_X + (int) (120 * Math.cos(minutowa - (Math.PI / 2)));
+        int yMinute = center_Y + (int) (120 * Math.sin(minutowa - (Math.PI / 2)));
+        g.drawLine(center_X, center_Y, xMinute, yMinute);
+        int xHour = center_X + (int) (90 * Math.cos(godzinna - (Math.PI / 2)));
+        int yHour = center_Y + (int) (90 * Math.sin(godzinna - (Math.PI / 2)));
+        g.drawLine(center_X, center_Y, xHour, yHour);
     }
 
     @Override
