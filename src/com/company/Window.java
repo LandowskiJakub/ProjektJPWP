@@ -27,7 +27,7 @@ public class Window extends JFrame implements ActionListener {
         getContentPane().setBackground(Color.lightGray);
 
         //Utwortzenie przycisków do wyboru poziomu trudności
-        bEasy = new JButton("Latwy");
+        bEasy = new JButton("Łatwy");
         bEasy.setBounds(150, 500, 150, 100);
         bEasy.setFont(new Font(SANS_SERIF, Font.BOLD, 30));
         bEasy.setBackground(Color.lightGray);
