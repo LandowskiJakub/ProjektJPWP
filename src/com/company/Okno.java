@@ -107,7 +107,7 @@ public class Okno extends JFrame implements ActionListener {
         }
 
         if (source == bReady) {
-            Colck.wywolanieZegara(b, c);
+            Clock.wywolanieZegara(b, c);
         }
     }
 
