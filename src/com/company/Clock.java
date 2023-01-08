@@ -48,10 +48,10 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
 
         // Utworzenie nowego okna
         JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         // Dodanie głównego panelu gry do okna
         frame.getContentPane().add(panel);
-        frame.setTitle("Która godzina?");
+        frame.setTitle("Zostań Mistrzem Czasu?");
         frame.setSize(1024, 768);
         frame.setResizable(false);
         // Okno pojawi się dokładnie na środku ekranu
@@ -62,7 +62,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         exitButton.setBounds(700, 590, 200, 40);
         exitButton.setFont(new Font(SANS_SERIF, Font.BOLD, 30));
         // Dodanie zachowania przycisku przy kliknięciu
-        exitButton.addActionListener(e -> System.exit(0));
+        exitButton.addActionListener(e -> System.exit(1));;
         // Dodanie przycisku do panelu
         panel.add(exitButton);
 
