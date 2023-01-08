@@ -92,7 +92,6 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         panel.add(label);
 
 
-
         frame.setVisible(true);
     }
 
@@ -183,8 +182,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         super.paintComponent(g);
         // Castowanie obiektu Graphics do Graphics2D
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         drawClock(g2d);
         drawHands(g2d, hour, minute);
@@ -236,13 +234,13 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
                 }
                 System.exit(0);
             } else if (win) {
-                 //Baner wyświeltany po poprawnym ustawieniu czasu
+                //Baner wyświeltany po poprawnym ustawieniu czasu
                 g2d.setColor(Color.GREEN);
                 g2d.fillRect(center_X - 120, center_Y - 300, 285, 80);
                 g2d.setColor(Color.BLACK);
                 g2d.drawString("Poprawna odpowiedź!", center_X - 100, center_Y - 250);
             } else {
-               // Baner wyświetlany po upływie czasu
+                // Baner wyświetlany po upływie czasu
                 g2d.setColor(Color.RED);
                 g2d.fillRect(center_X - 120, center_Y - 300, 240, 80);
                 g2d.setColor(Color.BLACK);
@@ -251,6 +249,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
             }
         }
     }
+
     //funkcja obliczająca kąt pomiędzy wskazówkami
     private int calculateAngel(int x, int y) {
         int ox = center_X - x;
@@ -264,7 +263,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
             result += 45;
         } else if (ox < 0 && oy >= 0) {
             result = 15 - result;
-        } else if (ox < 0 ) {
+        } else if (ox < 0) {
             result += 15;
         } else {
             result = 15 - result + 30;
@@ -272,6 +271,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
 
         return result;
     }
+
     //Funkcja rysująca zegar elektroniczny
     private void drawElectronicClock(Graphics2D g) {
         String h = String.valueOf(calculateHour);
@@ -296,7 +296,8 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         g.setFont(new Font(TAHOMA, Font.BOLD, 56));
         g.drawString(h + ":" + m, 312, center_Y + 310);
     }
-    //Funkcja rysująca zegar analogowy
+
+    //Funkcja rysująca wybraną plansze zegara analogowego
     private void drawClock(Graphics2D g) {
         g.setColor(Color.BLACK);
         g.fillOval(210, space + 100, 370, 370);
@@ -349,9 +350,9 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         g.setColor(Color.RED);
         g.fillOval(center_X - 3, center_Y - 3, 6, 6);
     }
+
     //Rysowanie kresek na zegarze
-    private void drawLines(Graphics2D g, double kat,
-                           int minRadius, int maxRadius) {
+    private void drawLines(Graphics2D g, double kat, int minRadius, int maxRadius) {
         float sinus = (float) Math.sin(kat);
         float cosinus = (float) Math.cos(kat);
         int dxmin = (int) (minRadius * sinus);
@@ -361,6 +362,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         g.setColor(Color.BLACK);
         g.drawLine(Clock.center_X + dxmin, Clock.center_Y + dymin, Clock.center_X + dxmax, Clock.center_Y + dymax);
     }
+
     //Rysowanie wskazówek zegara
     private void drawHands(Graphics2D g, double hour, double minute) {
         double m = ((minute * 6) * (Math.PI) / 180);

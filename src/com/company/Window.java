@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class Okno extends JFrame implements ActionListener {
+public class Window extends JFrame implements ActionListener {
     public int b;
     public int c;
     private final JButton bEasy;
@@ -19,7 +19,7 @@ public class Okno extends JFrame implements ActionListener {
     private final JButton bReady;
     private static final String SANS_SERIF = "SansSerif";
 
-    public Okno() {
+    public Window() {
         //Ustawienie ekranu początkowego
         setSize(1024, 768);
         setTitle("Zostań Mistrzem Czasu");
