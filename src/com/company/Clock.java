@@ -20,8 +20,8 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
     private int calculateHour;
     private int calculateMinute;
     private int correctTime = 0;
-    private int level = 1;
-    private int clock = 1;
+    private final int level;
+    private final int clock;
     private boolean win = false;
     private boolean info = false;
     private boolean mode24 = false;
@@ -38,7 +38,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
     private static final int center_Y = 620 / 2 + 10;
     public static final String TAHOMA = "Tahoma";
 
-    public static void wywolanieZegara(int difficulty, int clock) {
+    public static void clockCall(int difficulty, int clock) {
         // Utworzenie głównego panelu gry
         JPanel panel = new Clock(difficulty, clock);
         // Wyłącza Layout Manager'a, co pozwala na ustawianie
@@ -69,13 +69,15 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         JButton hourButton = new JButton("Godzinowa");
         hourButton.setFont(new Font(SANS_SERIF, Font.BOLD, 30));
         hourButton.setBounds(700, 590 - 120, 200, 40);
-        hourButton.addActionListener(e -> choice = 0); // Gracz będzie przesuwał wskazówkę godzinową
+        // Gracz będzie przesuwał wskazówkę godzinową
+        hourButton.addActionListener(e -> choice = 0);
         panel.add(hourButton);
 
         JButton minuteButton = new JButton("Minutowa");
         minuteButton.setFont(new Font(SANS_SERIF, Font.BOLD, 30));
         minuteButton.setBounds(700, 590 - 60, 200, 40);
-        minuteButton.addActionListener(e -> choice = 1); // Gracz będzie przesuwał wskazówkę minutową
+        // Gracz będzie przesuwał wskazówkę minutową
+        minuteButton.addActionListener(e -> choice = 1);
         panel.add(minuteButton);
 
         // Utworzenie pola tekstowego
@@ -88,6 +90,8 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         label.setBounds(700, 590 - 150, size.width, size.height);
         // Dodanie pola tekstowego do panelu
         panel.add(label);
+
+
 
         frame.setVisible(true);
     }
@@ -102,6 +106,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         addMouseMotionListener(this);
 
         newSettings();
+
 
         // Utworzenie timera, który będzie wywoływał funkcję run
         // co daną ilość milisekund. W tym przypadku gra będzie
@@ -119,7 +124,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         // Resetowanie zmiennych
         win = false;
         info = false;
-        // Losowanie nowej godziny
+        // Po wybraniu poziumu trudności dostosowanie wyświetlanych godzin
         if (level == 1) {
             mode24 = random.nextBoolean();
             calculateHour = random.nextInt(11);
@@ -133,21 +138,20 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
             calculateHour = random.nextInt(11);
             calculateMinute = random.nextInt(59);
         }
-        // Zapisanie czasu rozpoczęcia
+        //Czas na ustawenie odpowiedniej godziny
         startTime = System.currentTimeMillis();
         timeToSet = 15;
     }
 
     private void update() {
         // Obliczanie pozostałego czasu na ustawienie
-        long czas = timeToSet - ((System.currentTimeMillis() - startTime) / 1000);
+        long time = timeToSet - ((System.currentTimeMillis() - startTime) / 1000);
         // Jeżeli gracz ustawił poprawny
         if ((win && !info) || (level >= 5 && !info)) {
             // Pokazanie banera
             info = true;
-            endTime = czas;
+            endTime = time;
             correctTime++;
-
             // Ustawienie timera, który za 2 sekundy
             // zresetuje ustawienie
             new Timer().schedule(new TimerTask() {
@@ -159,11 +163,10 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
                 }
             }, 2000);
         }
-        // Jeżeli gracz przegrał przez upływ czasu
-        else if (czas <= 0 && !info) {
-            // Pokazanie banera
+        // Jeżeli czasu czas upłyną wyzerownie punktów
+        else if (time <= 0 && !info) {
             info = true;
-            endTime = czas;
+            endTime = time;
             // Ustawienie timera, który za 2 sekundy
             // zresetuje ustawienie
             new Timer().schedule(new TimerTask() {
@@ -180,7 +183,6 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         super.paintComponent(g);
         // Castowanie obiektu Graphics do Graphics2D
         Graphics2D g2d = (Graphics2D) g;
-        // Włączenie antyaliasingu
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -188,25 +190,24 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         drawHands(g2d, hour, minute);
         drawElectronicClock(g2d);
 
-        long czas = timeToSet - ((System.currentTimeMillis() - startTime) / 1000);
-        if (czas < 0) {
-            czas = 0;
+        long time = timeToSet - ((System.currentTimeMillis() - startTime) / 1000);
+        if (time < 0) {
+            time = 0;
         }
         // Jeżeli ustawienie się zakończyło i pokazuje się baner
         // zatrzymujemy licznik czasu w miejscu używając zmiennej
         // endTime
         if (info) {
-            czas = endTime;
+            time = endTime;
         }
 
         g2d.setFont(new Font(TAHOMA, Font.BOLD, 22));
         g2d.setColor(Color.BLACK);
         g2d.drawString("Poprawne: " + correctTime, 20, 40);
-        g2d.drawString("Pozostały czas: " + czas + " s", 20, 70);
+        g2d.drawString("Pozostały czas: " + time + " s", 20, 70);
         g2d.drawString("USTAW GODZINĘ", 300, 550);
-
+        //Wyświetlanie banerów dla poprawnego czasu
         if (info) {
-            // Baner dla końca gry
             if (correctTime >= 5 && correctTime < 10) {
                 g2d.setColor(Color.GREEN);
                 g2d.fillRect(center_X - 120, center_Y - 300, 285, 80);
@@ -227,7 +228,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
                 g2d.setColor(Color.BLACK);
                 g2d.drawString("Poprawna odpowiedź!", center_X - 100, center_Y - 250);
 
-
+                //Ustawienie timera na 5s po tym czasie gra się wyłączy
                 try {
                     TimeUnit.SECONDS.sleep(5);
                 } catch (InterruptedException e) {
@@ -235,13 +236,13 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
                 }
                 System.exit(0);
             } else if (win) {
-                // Baner dla wygranej
+                 //Baner wyświeltany po poprawnym ustawieniu czasu
                 g2d.setColor(Color.GREEN);
                 g2d.fillRect(center_X - 120, center_Y - 300, 285, 80);
                 g2d.setColor(Color.BLACK);
                 g2d.drawString("Poprawna odpowiedź!", center_X - 100, center_Y - 250);
             } else {
-                // Baner dla przegranej
+               // Baner wyświetlany po upływie czasu
                 g2d.setColor(Color.RED);
                 g2d.fillRect(center_X - 120, center_Y - 300, 240, 80);
                 g2d.setColor(Color.BLACK);
@@ -250,7 +251,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
             }
         }
     }
-
+    //funkcja obliczająca kąt pomiędzy wskazówkami
     private int calculateAngel(int x, int y) {
         int ox = center_X - x;
         int oy = center_Y - y;
@@ -271,7 +272,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
 
         return result;
     }
-
+    //Funkcja rysująca zegar elektroniczny
     private void drawElectronicClock(Graphics2D g) {
         String h = String.valueOf(calculateHour);
         if (mode24) {
@@ -295,7 +296,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         g.setFont(new Font(TAHOMA, Font.BOLD, 56));
         g.drawString(h + ":" + m, 312, center_Y + 310);
     }
-
+    //Funkcja rysująca zegar analogowy
     private void drawClock(Graphics2D g) {
         g.setColor(Color.BLACK);
         g.fillOval(210, space + 100, 370, 370);
@@ -315,7 +316,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
             }
 
             float radNaSek = (float) (Math.PI / 30.0);
-            drawLines(g, center_X, center_Y, radNaSek * seconds, dl - 20, size / 2 - 20);
+            drawLines(g, radNaSek * seconds, dl - 20, size / 2 - 20);
         }
 
         if (clock < 3) {
@@ -348,29 +349,29 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         g.setColor(Color.RED);
         g.fillOval(center_X - 3, center_Y - 3, 6, 6);
     }
-
-    private void drawLines(Graphics2D g, int x, int y, double kat,
-                           int minPromien, int maxPromien) {
+    //Rysowanie kresek na zegarze
+    private void drawLines(Graphics2D g, double kat,
+                           int minRadius, int maxRadius) {
         float sinus = (float) Math.sin(kat);
         float cosinus = (float) Math.cos(kat);
-        int dxmin = (int) (minPromien * sinus);
-        int dymin = (int) (minPromien * cosinus);
-        int dxmax = (int) (maxPromien * sinus);
-        int dymax = (int) (maxPromien * cosinus);
+        int dxmin = (int) (minRadius * sinus);
+        int dymin = (int) (minRadius * cosinus);
+        int dxmax = (int) (maxRadius * sinus);
+        int dymax = (int) (maxRadius * cosinus);
         g.setColor(Color.BLACK);
-        g.drawLine(x + dxmin, y + dymin, x + dxmax, y + dymax);
+        g.drawLine(Clock.center_X + dxmin, Clock.center_Y + dymin, Clock.center_X + dxmax, Clock.center_Y + dymax);
     }
-
+    //Rysowanie wskazówek zegara
     private void drawHands(Graphics2D g, double hour, double minute) {
-        double minutowa = ((minute * 6) * (Math.PI) / 180);
-        double godzinna = ((hour + (minute / 60)) * 30) * (Math.PI) / 180;
+        double m = ((minute * 6) * (Math.PI) / 180);
+        double h = ((hour + (minute / 60)) * 30) * (Math.PI) / 180;
 
         g.setColor(Color.BLACK);
-        int xMinute = center_X + (int) (120 * Math.cos(minutowa - (Math.PI / 2)));
-        int yMinute = center_Y + (int) (120 * Math.sin(minutowa - (Math.PI / 2)));
+        int xMinute = center_X + (int) (120 * Math.cos(m - (Math.PI / 2)));
+        int yMinute = center_Y + (int) (120 * Math.sin(m - (Math.PI / 2)));
         g.drawLine(center_X, center_Y, xMinute, yMinute);
-        int xHour = center_X + (int) (90 * Math.cos(godzinna - (Math.PI / 2)));
-        int yHour = center_Y + (int) (90 * Math.sin(godzinna - (Math.PI / 2)));
+        int xHour = center_X + (int) (90 * Math.cos(h - (Math.PI / 2)));
+        int yHour = center_Y + (int) (90 * Math.sin(h - (Math.PI / 2)));
         g.drawLine(center_X, center_Y, xHour, yHour);
     }
 
@@ -428,4 +429,5 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
     @Override
     public void mouseMoved(MouseEvent e) {
     }
+
 }

@@ -20,18 +20,18 @@ public class Okno extends JFrame implements ActionListener {
     private static final String SANS_SERIF = "SansSerif";
 
     public Okno() {
-
-        setSize(1024, 768);                  //Ustawienie ekranu początkowego
+        //Ustawienie ekranu początkowego
+        setSize(1024, 768);
         setTitle("Zostań Mistrzem Czasu");
         setLayout(null);
         getContentPane().setBackground(Color.lightGray);
 
-
-        bEasy = new JButton("Łatwy");                                //Stworzenie przycisków
-        bEasy.setBounds(150, 500, 150, 100);             //Ustawnienie pozycji przycisków
-        bEasy.setFont(new Font(SANS_SERIF, Font.BOLD, 30));    //Ustawienie czcionki
-        bEasy.setBackground(Color.lightGray);                           //Ustawienie koloru tła przycisków
-        bEasy.setBorderPainted(false);                                  //Wyłączenie obramówki do okoła przycisków
+        //Utwortzenie przycisków do wyboru poziomu trudności
+        bEasy = new JButton("Łatwy");
+        bEasy.setBounds(150, 500, 150, 100);
+        bEasy.setFont(new Font(SANS_SERIF, Font.BOLD, 30));
+        bEasy.setBackground(Color.lightGray);
+        bEasy.setBorderPainted(false);
         add(bEasy);
         bEasy.addActionListener(this);
 
@@ -56,6 +56,7 @@ public class Okno extends JFrame implements ActionListener {
         text.setFont(new Font(SANS_SERIF, Font.BOLD, 40));
         add(text);
 
+        //Utworzenie przycików do wyboru planszy
         bPlan1 = new JButton(new ImageIcon("zeg1.png"));
         bPlan1.setBounds(125, 200, 200, 200);
         bPlan1.setBackground(Color.lightGray);
@@ -77,6 +78,7 @@ public class Okno extends JFrame implements ActionListener {
         add(bPlan3);
         bPlan3.addActionListener(this);
 
+        //Utowrzenie przyciku do zatwierdzenia
         bReady = new JButton("Zatwierdź");
         bReady.setBounds(417, 600, 200, 50);
         bReady.setBackground(Color.lightGray);
@@ -107,7 +109,7 @@ public class Okno extends JFrame implements ActionListener {
         }
 
         if (source == bReady) {
-            Clock.wywolanieZegara(b, c);
+            Clock.clockCall(b, c);
         }
     }
 
