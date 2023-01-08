@@ -135,16 +135,13 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         }
         // Zapisanie czasu rozpoczęcia
         startTime = System.currentTimeMillis();
-        // Obliczenie czasu na ustawienie
-        // Im więcej gracz ma poprawnych czasów
-        // tym trudniejsza staje się gra
         timeToSet = 15;
     }
 
     private void update() {
         // Obliczanie pozostałego czasu na ustawienie
         long czas = timeToSet - ((System.currentTimeMillis() - startTime) / 1000);
-        // Jeżeli gracz ustawił poprawny czas lub skończyły się poziomy
+        // Jeżeli gracz ustawił poprawny
         if ((win && !info) || (level >= 5 && !info)) {
             // Pokazanie banera
             info = true;
@@ -197,7 +194,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         }
         // Jeżeli ustawienie się zakończyło i pokazuje się baner
         // zatrzymujemy licznik czasu w miejscu używając zmiennej
-        // czasZakonczenia
+        // endTime
         if (info) {
             czas = endTime;
         }
