@@ -203,7 +203,7 @@ public class Clock extends JPanel implements MouseListener, MouseMotionListener 
         g2d.setColor(Color.BLACK);
         g2d.drawString("Poprawne: " + correctTime, 20, 40);
         g2d.drawString("Pozostały czas: " + time + " s", 20, 70);
-        g2d.drawString("USTAW GODZINĘ", 300, 550);
+        g2d.drawString("USTAW GODZINE", 300, 550);
         //Wyświetlanie banerów dla poprawnego czasu
         if (info) {
             if (correctTime >= 5 && correctTime < 10) {
